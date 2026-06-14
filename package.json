@@ -1,10 +1,9 @@
 {
   "name": "ollama-copilot",
-  "displayName": "ollama-copilot",
-  "description": "",
+  "displayName": "Ollama Copilot",
+  "description": "Local AI coding assistant powered by Ollama. Generate code, inline suggestions, and chat with local models directly inside VS Code.",
   "version": "0.0.1",
   "publisher": "gauravwaghmare",
-  "icon": "src/media/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/GauravWaghmare23/ollama-copilot"
