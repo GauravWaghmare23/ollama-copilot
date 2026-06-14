@@ -7,7 +7,7 @@
   "icon": "src/media/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/ollama-copilot"
+    "url": "https://github.com/GauravWaghmare23/ollama-copilot"
   },
   "license": "MIT",
   "engines": {
