@@ -1,5 +1,5 @@
 {
-  "name": "ollama-copilot",
+  "name": "ollama-copilot-mark1-arc2-0-0-1",
   "displayName": "Ollama Copilot",
   "description": "Local AI coding assistant powered by Ollama. Generate code, inline suggestions, and chat with local models directly inside VS Code.",
   "version": "0.0.1",

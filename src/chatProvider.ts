@@ -144,42 +144,231 @@ ${message.prompt}
 
         return `
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+<meta charset="UTF-8">
 
 <style>
 
+:root{
+  --radius:16px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
-  padding:12px;
-  font-family:sans-serif;
+  margin:0;
+  padding:16px;
+  font-family:var(--vscode-font-family);
+  background:var(--vscode-editor-background);
+  color:var(--vscode-foreground);
+}
+
+.container{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.header{
+  padding:18px;
+  border-radius:16px;
+  background:
+  linear-gradient(
+    135deg,
+    rgba(59,130,246,.15),
+    rgba(139,92,246,.15)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.title{
+  font-size:22px;
+  font-weight:700;
+}
+
+.subtitle{
+  margin-top:6px;
+  font-size:12px;
+  opacity:.7;
+}
+
+.card{
+  background:
+    var(--vscode-editorWidget-background);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:16px;
+
+  padding:14px;
+}
+
+.label{
+  font-size:12px;
+  font-weight:600;
+  opacity:.8;
+  margin-bottom:8px;
 }
 
 textarea{
   width:100%;
-  height:120px;
+  min-height:140px;
   resize:vertical;
+
+  border:none;
+  outline:none;
+
+  border-radius:12px;
+
+  padding:12px;
+
+  background:
+    var(--vscode-input-background);
+
+  color:
+    var(--vscode-input-foreground);
+
+  font-family:
+    Consolas,
+    monospace;
+
+  font-size:13px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
 }
 
 button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
+  flex:1;
+
+  border:none;
+
+  padding:12px;
+
+  border-radius:12px;
+
   cursor:pointer;
+
+  font-weight:600;
+
+  transition:.2s;
 }
 
-#status{
-  margin-top:10px;
-  color:orange;
+button:hover{
+  transform:translateY(-2px);
+}
+
+.primary{
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    #3b82f6,
+    #8b5cf6
+  );
+}
+
+.secondary{
+  background:
+    var(
+      --vscode-button-secondaryBackground
+    );
+
+  color:
+    var(
+      --vscode-button-secondaryForeground
+    );
+}
+
+.statusCard{
+  background:
+    var(--vscode-editorWidget-background);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:16px;
+
+  padding:12px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#22c55e;
+}
+
+.output{
+  border-radius:16px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  background:
+    var(
+      --vscode-textCodeBlock-background
+    );
+}
+
+.outputHeader{
+  padding:10px 14px;
+
+  border-bottom:
+    1px solid rgba(255,255,255,.08);
+
+  font-size:12px;
+  font-weight:600;
+  opacity:.75;
 }
 
 pre{
-  margin-top:10px;
+  margin:0;
+
+  padding:16px;
+
   white-space:pre-wrap;
-  max-height:300px;
+
+  word-break:break-word;
+
   overflow:auto;
-  border:1px solid #444;
-  padding:10px;
+
+  max-height:400px;
+
+  font-size:13px;
+
+  line-height:1.6;
+
+  font-family:
+    Consolas,
+    monospace;
+}
+
+.footer{
+  text-align:center;
+  font-size:11px;
+  opacity:.5;
 }
 
 </style>
@@ -188,24 +377,84 @@ pre{
 
 <body>
 
-<h2>🤖 Ollama AI Chat</h2>
+<div class="container">
+
+<div class="header">
+
+<div class="logo">
+🤖
+</div>
+
+<div class="title">
+Ollama Copilot
+</div>
+
+<div class="subtitle">
+Local AI Coding Assistant powered by Ollama
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="label">
+PROMPT
+</div>
 
 <textarea
 id="prompt"
-placeholder="Ask Ollama..."
+placeholder="Describe what you want to generate..."
 ></textarea>
 
-<button id="askBtn">
-🚀 Ask AI
+</div>
+
+<div class="actions">
+
+<button
+id="askBtn"
+class="primary"
+>
+🚀 Generate
 </button>
 
-<button id="insertBtn">
-📄 Insert Into File
+<button
+id="insertBtn"
+class="secondary"
+>
+📄 Insert
 </button>
 
-<div id="status"></div>
+</div>
 
-<pre id="result"></pre>
+<div class="statusCard">
+
+<div
+class="status"
+id="status"
+>
+<div class="dot"></div>
+Ready
+</div>
+
+</div>
+
+<div class="output">
+
+<div class="outputHeader">
+GENERATED RESPONSE
+</div>
+
+<pre id="result">
+Waiting for prompt...
+</pre>
+
+</div>
+
+<div class="footer">
+Ollama Copilot • Local AI • No API Keys
+</div>
+
+</div>
 
 <script>
 
@@ -236,8 +485,8 @@ document.getElementById(
 "prompt"
 ).value;
 
-status.textContent =
-"Thinking...";
+status.innerHTML =
+'<div class="dot"></div> Generating response...';
 
 vscode.postMessage({
 command:"ask",
@@ -266,11 +515,12 @@ const msg =
 event.data;
 
 if(
-msg.command === "answer"
+msg.command ===
+"answer"
 ){
 
-status.textContent =
-"Completed";
+status.innerHTML =
+'<div class="dot"></div> Completed';
 
 document.getElementById(
 "result"
@@ -285,7 +535,6 @@ msg.text;
 </script>
 
 </body>
-
 </html>
 `;
     }
